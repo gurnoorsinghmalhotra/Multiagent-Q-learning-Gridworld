@@ -1,0 +1,26 @@
+# Default hyper‑parameters for GridWorld training
+grid_size: 5               # 3 ≤ size ≤ 7
+agents_per_type: [2, 2]    # e.g. two type‑0, two type‑1 agents
+
+episodes: 2000
+initial_experience: 100
+
+gamma: 0.95
+epsilon_start: 1.0
+epsilon_min: 0.05
+epsilon_decay: 0.995
+
+batch_size: 32
+replay_capacity: 50000
+target_sync_every: 1000      # steps
+save_every: 1000             # episodes
+
+early_stop_patience: 500
+early_stop_delta: 0.01
+
+reward:
+  move: -1
+  invalid_move: -5
+  secret_exchange: 20
+  reach_b_with_full_secret: 100
+  reach_b_without_secret: -5

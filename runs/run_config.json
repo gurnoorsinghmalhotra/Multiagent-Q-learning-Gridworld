@@ -1,0 +1,9 @@
+{
+  "grid_size": 5,
+  "agents_per_type": [
+    2,
+    2
+  ],
+  "state_size": 7,
+  "action_size": 4
+}
