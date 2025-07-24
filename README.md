@@ -161,18 +161,12 @@ You can warn users how many configurations will be tested by printing the estima
 
 ## GIFs & Frames
 
-### Option 1: One‑shot GIF (`gif.py`)
-
 ```bash
 python gif.py                       # random start
 python gif.py --manual "2,2 0,0 4,4 0,4 4,0"  # B, then each agent
 # extras: --ckpt, --cfg, --out, --tmp, --clean
 ```
-
-### Option 2: Frame‑by‑frame (`make_gif_frames.py`)
-
-Saves PNG frames to `frames_tmp/`, then stitches to GIF @ 1 fps:
-
+Override previous saved frames and save new using the following --clean method
 ```bash
 python make_gif_frames.py --clean
 ```
