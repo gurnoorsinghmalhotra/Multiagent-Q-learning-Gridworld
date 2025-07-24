@@ -2,7 +2,7 @@
 grid_size: 5               # 3 ≤ size ≤ 7
 agents_per_type: [2, 2]    # e.g. two type‑0, two type‑1 agents
 
-episodes: 2000
+episodes: 20000
 initial_experience: 100
 
 gamma: 0.95

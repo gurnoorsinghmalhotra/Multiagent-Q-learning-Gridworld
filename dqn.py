@@ -1,3 +1,9 @@
+"""
+dqn.py  -  DQN model for GridWorld
+This module defines the DQN class, which implements a simple feedforward neural network
+to approximate the Q-values for the GridWorld environment
+"""
+
 import copy
 import torch
 
@@ -48,7 +54,7 @@ class DQN:
         return loss.item()
 
     def save(self, filename="checkpoint.pt"):
-        """Save online‑network weights only."""
+        """Save online-network weights only."""
         torch.save(self.model.state_dict(), filename)
 
     def load(self, filename="checkpoint.pt"):

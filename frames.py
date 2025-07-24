@@ -1,4 +1,8 @@
-# frame_viewer.py – scrub through PNG frames with a slider
+""" 
+Frame viewer for GridWorld simulation frames witha slider.
+Usage: python frame_viewer.py [folder]
+Defaults to 'frames_tmp' if no folder is specified.
+"""
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider
 import glob, sys, os

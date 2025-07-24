@@ -1,5 +1,10 @@
-import numpy as np
 
+"""
+environment.py  -  GridWorld environment for DQN agents
+This module defines the GridWorld class, which represents the GridWorld environment where DQN agents operate
+and interact with each other. It includes methods for agent movement, state representation, and reward calculation
+"""
+import numpy as np
 
 class GridWorld:
     def __init__(self, size=5, n_agents=4, agent_types=None, reward=None):

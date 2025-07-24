@@ -1,6 +1,17 @@
 """
-make_gif_frames.py  –  PNG per step ▸ 1 fps looping GIF
-(Labels always black, returns fig | ax | agent_colors like notebook)
+gif.py - Create a GIF animation of the GridWorld agents' paths.
+This script builds a GridWorld environment, initializes agents, and simulates their actions
+to create a visual representation of their paths towards a goal.
+It saves the resulting frames as a GIF file.
+Usage:
+    python gif.py --ckpt <checkpoint_path> --cfg <config_path> --out <output_gif_path> [--clean] [--tmp <temp_dir>] [--manual "bx,by a0x,a0y ..."]
+Arguments:
+    --ckpt   : Path to the DQN model checkpoint.
+    --cfg    : Path to the configuration file for the environment.
+    --out    : Output path for the generated GIF.
+    --clean  : If set, cleans up temporary frames after GIF creation.
+    --tmp    : Temporary directory for storing individual frames.
+    --manual : Manually specify the initial positions of agents and the goal.
 """
 
 import matplotlib.pyplot as plt
@@ -9,11 +20,10 @@ from matplotlib.colors import ListedColormap
 import imageio.v2 as imageio
 import numpy as np
 import argparse, json, random, shutil, pathlib
-
-from environment     import GridWorld
-from dqn             import DQN
-from agent           import DQNAgent
-from replay_buffer   import ReplayBuffer
+from environment import GridWorld
+from dqn import DQN
+from agent import DQNAgent
+from collections import deque
 
 STATE, ACTION = 7, 4
 
@@ -73,7 +83,7 @@ def build_env(ckpt,cfg):
     n=sum(types)
 
     dqn=DQN(STATE,ACTION); dqn.load(ckpt)
-    buf={t:ReplayBuffer(maxlen=1) for t in range(len(types))}
+    buf={t:deque(maxlen=1) for t in range(len(types))}
     agents,tlist,aid=[],[],0
     for t,c in enumerate(types):
         for _ in range(c):
@@ -124,7 +134,7 @@ def main():
     done=False; step=0
     while not done and step<100:
         fig,ax,cols=plot_initial(env)
-        ax.set_title(f"Step {step}   |   Task completed by – {task}")
+        ax.set_title(f"Step {step}   |   Task completed by -  {task}")
         plot_paths(ax,env,cols)
         fname=tmp/f"f{step:03d}.png"
         fig.savefig(fname,dpi=120,bbox_inches="tight"); plt.close(fig)
@@ -140,7 +150,7 @@ def main():
         step+=1
 
     fig,ax,cols=plot_initial(env)
-    ax.set_title(f"Step {step}   |   Task completed by – {task}")
+    ax.set_title(f"Step {step}   |   Task completed by -  {task}")
     plot_paths(ax,env,cols)
     fname=tmp/f"f{step:03d}.png"
     fig.savefig(fname,dpi=120,bbox_inches="tight"); plt.close(fig)

@@ -1,12 +1,11 @@
 """
-train.py  –  DQN training script for GridWorld (size 3 to 7)
+train.py  -  DQN training script for GridWorld 
 
 Features
 --------
-• Hyper‑parameters via YAML (--cfg) or CLI flags.
-• Hard guard: grid size must be between 3 and 7.
-• Per‑episode console logging (Reward dict, Loss, ε, Steps).
-• Graceful KeyboardInterrupt → saves everything before exit.
+• Hyper-parameters via YAML (--cfg) or CLI flags.
+• Per-episode console logging (Reward dict, Loss, ε, Steps).
+• KeyboardInterrupt saves everything before exit.
 • Artifacts written to runs/ :
       checkpoint_final.pt
       episode_rewards.npy
@@ -26,12 +25,12 @@ STATE_SIZE = 7
 ACTION_SIZE = 4
 
 # ---------------------------------------------------------------------
-# Default hyper‑params (overridable)
+# Default hyper-params (overridable)
 # ---------------------------------------------------------------------
 DEFAULTS = dict(
     grid_size=5,
     agents_per_type=[2, 2],
-    episodes=20000,
+    episodes=20000, # total training episodes
     initial_experience=100,
     reward=dict(
         move=-1,
@@ -60,24 +59,24 @@ def load_yaml(path):
         return yaml.safe_load(f)
 
 # ---------------------------------------------------------------------
-# Warm‑up experience
+# Warm-up experience
 # ---------------------------------------------------------------------
 def collect_initial_experiences(agents, env, initial_experience):
-    print(f"Collecting {initial_experience} warm‑up steps …")
+    print(f"Collecting {initial_experience} warm-up steps …")
     steps = 0
     while steps < initial_experience:
         states = env.reset()
         done   = False
         while not done and steps < initial_experience:
             for ag in agents:
-                a = ag.act(states[ag.agent_id])
+                a  = ag.act(states[ag.agent_id])
                 s2, r, done = env.agent_step(ag.agent_id, a)
                 ag.remember(states[ag.agent_id], a, r, s2, done)
                 states[ag.agent_id] = s2
             steps += 1
             if done:
                 break
-    print("Warm‑up done.")
+    print("Warm-up done.")
 
 # ---------------------------------------------------------------------
 # Training loop
@@ -85,6 +84,7 @@ def collect_initial_experiences(agents, env, initial_experience):
 def train_agents(agents, env, episodes):
     os.makedirs("runs", exist_ok=True)
     reward_hist, loss_hist = [], []
+    eps_hist = []                          
 
     try:
         for ep in range(1, episodes + 1):
@@ -96,7 +96,7 @@ def train_agents(agents, env, episodes):
 
             while not done and steps_in_episode < 100:   # max steps
                 for ag in agents:
-                    a = ag.act(states[ag.agent_id])
+                    a  = ag.act(states[ag.agent_id])
                     s2, r, done = env.agent_step(ag.agent_id, a)
                     ag.remember(states[ag.agent_id], a, r, s2, done)
                     states[ag.agent_id] = s2
@@ -120,6 +120,7 @@ def train_agents(agents, env, episodes):
             # ε decay
             for ag in agents:
                 ag.update_epsilon()
+            eps_hist.append(agents[0].epsilon)          
 
             # logging
             if ep == 1 or ep % 100 == 0:
@@ -134,6 +135,7 @@ def train_agents(agents, env, episodes):
     agents[0].shared_dqn.save("runs/checkpoint_final.pt")
     np.save("runs/episode_rewards.npy", np.array(reward_hist))
     np.save("runs/losses.npy",         np.array(loss_hist))
+    np.save("runs/epsilons.npy",       np.array(eps_hist))   
     print("[train] Final checkpoint & curves saved to runs/")
 
 # ---------------------------------------------------------------------

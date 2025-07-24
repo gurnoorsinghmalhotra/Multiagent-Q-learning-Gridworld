@@ -1,4 +1,10 @@
-from replay_buffer import ReplayBuffer
+"""
+agent.py  -  DQN agent for GridWorld
+This module defines the DQNAgent class, which encapsulates the DQN agent's functionality
+for interacting with the GridWorld environment, managing its own DQN model, and most importantly handling
+experience replay
+"""
+
 import numpy as np
 import random
 

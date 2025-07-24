@@ -8,7 +8,7 @@ Reads:
 Outputs success rate, average steps, % under a threshold, and AEP.
 """
 
-import argparse, json, itertools, numpy as np, pathlib
+import argparse, json, itertools, pathlib
 from environment import GridWorld
 from dqn import DQN
 from agent import DQNAgent
