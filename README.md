@@ -1,7 +1,5 @@
 # Multi‑Agent Q‑Learning GridWorld
 
-<!-- Drop your GIF right below this comment. Example: -->
-
 ![Demo run of trained agents](assets/demo.gif)
 
 > *Four little agents, one juicy secret, and a rendezvous point called **B**. Can they coordinate (via Q‑learning) to share the secret and finish the task efficiently?*
@@ -27,7 +25,7 @@ python evaluate.py
 python plots.py
 
 # 5. Make a GIF of a run
-python make_gif_frames.py --clean
+python gif.py --clean
 # or
 python gif.py --manual "2,2 0,0 4,4 0,4 4,0"
 
@@ -63,7 +61,7 @@ python instruct.py
 
 ## The Task
 
-* **Grid**: N×N (N ∈ \[3,7]) cells.
+* **Grid**: N×N cells (5x5 in this example).
 * **Agents**: Multiple agents split into *types* (0 or 1). They start at random cells.
 * **Secret**: Only by meeting an agent of the opposite type can an agent acquire the **full secret** (spreadable).
 * **Goal (B)**: Any agent with the full secret reaching cell **B** ends the episode.
@@ -115,7 +113,7 @@ All positions are normalized by `(grid_size - 1)`.
   * `losses.npy` – mean loss per episode
   * `epsilons.npy` – ε value per episode
   * `run_config.json` – grid size, agent layout, state/action sizes
-* **Graceful stop**: `Ctrl+C` → still saves everything.
+* **KeyboardInterrupt**: `Ctrl+C` → still saves everything.
 
 Run with overrides:
 
@@ -181,37 +179,14 @@ Want slower/faster GIF? Change `fps` in the `imageio.get_writer()` call.
 
 ## instruct.py – your CLI cheat‑sheet
 
-Running `python instruct.py` prints a single-page list of all commands & options so you never have to remember flags.
-
----
-
-## Housekeeping
-
-* **Temp frames**: If scripts leave `frames_tmp/`, delete with:
-
-  ```bash
-  python -c "import shutil; shutil.rmtree('frames_tmp', True)"
-  ```
-* **VS Code shows terminal instead of editor?** Click a file in the explorer to open it; \`Ctrl+\`\` toggles the terminal pane.
-
----
-
-## Troubleshooting
-
-| Symptom                                                            | Likely cause / fix                                                                                                                            |
-| ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `AttributeError: 'DQNAgent' object has no attribute 'agent_id'`    | You mixed paraphrased `agent.py` (renamed attributes) with old `train.py`. Either add alias properties or revert both to consistent versions. |
-| `TypeError: 'NoneType' object is not subscriptable` in env rewards | You created an env with `reward=None`. Pass a reward dict (see defaults) or give zeros.                                                       |
-| GIF shows only one agent when overlapping                          | Use our frame‑offset logic (already in make\_gif\_frames.py) or tweak plotting offsets.                                                       |
-| Epsilon plot missing                                               | `epsilons.npy` wasn’t saved. Make sure your train.py includes the `eps_hist` saving lines.                                                    |
+Running `python instruct.py` prints a single-page list of all commands & options so you never have to remember flags.                                                  |
 
 ---
 
 ## License / Credits
 
 * This started as a university assignment and was re‑structured as a modular project.
-  (Add your license here: MIT License)
-* Big thanks to your future self for keeping the code clean and documented 🙌
+  (MIT License)
 
 ---
 
