@@ -184,9 +184,7 @@ Running `python instruct.py` prints a single-page list of all commands & options
 ---
 
 ## License / Credits
-
-* This started as a university assignment and was re‑structured as a modular project.
-  (MIT License)
+(MIT License)
 
 ---
 
