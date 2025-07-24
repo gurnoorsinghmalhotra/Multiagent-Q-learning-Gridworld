@@ -43,7 +43,6 @@ python instruct.py
 ├─ agent.py               # DQNAgent wrapper (epsilon-greedy, replay, target sync)
 ├─ dqn.py                 # Online/target networks, train_one_step, save/load
 ├─ environment.py         # GridWorld env: states, rewards, secret exchange logic
-├─ replay_buffer.py       # (Optional) ReplayBuffer class (GIF script uses it)
 ├─ train.py               # Training loop (warm-up, logging, save artifacts)
 ├─ evaluate.py            # Exhaustive config evaluation & metrics (SR, AEP, etc.)
 ├─ plots.py               # reward/loss/epsilon plots → assets/plots/
